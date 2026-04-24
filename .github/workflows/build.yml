@@ -1,4 +1,4 @@
-name: Build FPSTagMod
+name: Build FPSNametag
 
 on:
   push:
@@ -10,14 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: nttld/setup-ndk@v1
         with:
           ndk-version: r27c
           add-to-path: true
-
       - run: sudo apt-get install -y cmake ninja-build
-
       - run: |
           mkdir build
           cmake -B build \
@@ -26,16 +23,13 @@ jobs:
             -DANDROID_PLATFORM=android-26 \
             -DCMAKE_BUILD_TYPE=Release \
             -G Ninja
-
       - run: cmake --build build
-
       - run: |
           mkdir output
-          cp build/libFPSTagMod.so output/
-          zip -r FPSTagMod-release.zip output/
-
+          cp build/libFPSNametag.so output/
+          zip -r FPSNametag-release.zip output/
       - uses: actions/upload-artifact@v4
         with:
-          name: FPSTagMod-release
-          path: FPSTagMod-release.zip
+          name: FPSNametag-release
+          path: FPSNametag-release.zip
           retention-days: 30
